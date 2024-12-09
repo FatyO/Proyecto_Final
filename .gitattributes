@@ -1,0 +1,5 @@
+static/models/CUARTO/teclado.gltf filter=lfs diff=lfs merge=lfs -text
+static/HDRI/hdr0.exr filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.gltf filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
