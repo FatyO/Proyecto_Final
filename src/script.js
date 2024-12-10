@@ -252,19 +252,35 @@ scene.add(camera);
 /**
  * Lighting Setup
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(10, 10, 10);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5);
 directionalLight.castShadow = true;
 directionalLight.shadow.mapSize.width = 2048;
 directionalLight.shadow.mapSize.height = 2048;
-directionalLight.shadow.camera.far = 50;
+directionalLight.shadow.camera.far = 5000;
 scene.add(directionalLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 0.6, 300);
-pointLight.position.set(0, 15, 0);
+const directionalLightf = new THREE.DirectionalLight(0xffffff, 1);
+directionalLightf.position.set(1, 1, 3);
+directionalLightf.castShadow = true;
+directionalLightf.shadow.mapSize.width = 5000;
+directionalLightf.shadow.mapSize.height = 5000;
+directionalLightf.shadow.camera.far = 5000;
+scene.add(directionalLightf);
+
+const directionalLightd = new THREE.DirectionalLight(0xffffff, 1);
+directionalLightd.position.set(500, 10, -100);
+directionalLightd.castShadow = true;
+directionalLightd.shadow.mapSize.width = 5000;
+directionalLightd.shadow.mapSize.height = 5000;
+directionalLightd.shadow.camera.far = 5000;
+scene.add(directionalLightd);
+
+const pointLight = new THREE.PointLight(0xffffff, 1, 300);
+pointLight.position.set(0, 5, 0);
 scene.add(pointLight);
 
 /**
@@ -287,6 +303,11 @@ let hongoLight = null;
 let isHongoLightOn = true;
 let leftMonitor = null;
 let rightMonitor = null;
+let monitores_sin = null;
+
+
+
+
 
 models.forEach((model) => {
     gltfLoader.load(
@@ -296,7 +317,8 @@ models.forEach((model) => {
             loadedModel.traverse((child) => {
                 if (child.isMesh) {
                     child.material.needsUpdate = true;
-                    
+                    child.material.receiveShadow=true;
+                    child.material.castShadow=true;
                     if (model.name === 'monitor_left') {
                         leftMonitor = loadedModel;
                         child.material = new THREE.MeshStandardMaterial({
@@ -305,7 +327,10 @@ models.forEach((model) => {
                             emissiveMap: imageTexture,
                             emissiveIntensity: 1.5,
                             metalness: 0,
-                            roughness: 0
+                            roughness: 0,
+                            receiveShadow:true,
+                            castShadow:true
+
                         });
                     } else if (model.name === 'monitor_right') {
                         rightMonitor = loadedModel;
@@ -315,7 +340,9 @@ models.forEach((model) => {
                             emissiveMap: videoTexture,
                             emissiveIntensity: 1.5,
                             metalness: 0,
-                            roughness: 0
+                            roughness: 0,
+                            receiveShadow:true,
+                            castShadow:true
                         });
                     } else if (child.material.isMeshStandardMaterial || child.material.isMeshPhongMaterial) {
                         child.material.metalness = 0;
@@ -334,6 +361,9 @@ models.forEach((model) => {
                 wooferModel = loadedModel;
             }
 
+            
+        
+            
             if (model.name === 'hongo') {
                 hongoModel = loadedModel;
                 hongoLight = new THREE.PointLight(0xffffff, 3, 10);
@@ -601,6 +631,8 @@ function updateLighting() {
             );
             hongoLight.distance = 10 + (audioData.lowMid * 20);
         }
+
+       
 
         // Update monitor materials
         if (leftMonitor) {
