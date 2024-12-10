@@ -271,13 +271,6 @@ directionalLightf.shadow.mapSize.height = 5000;
 directionalLightf.shadow.camera.far = 5000;
 scene.add(directionalLightf);
 
-const directionalLightd = new THREE.DirectionalLight(0xffffff, 1);
-directionalLightd.position.set(500, 10, -100);
-directionalLightd.castShadow = true;
-directionalLightd.shadow.mapSize.width = 5000;
-directionalLightd.shadow.mapSize.height = 5000;
-directionalLightd.shadow.camera.far = 5000;
-scene.add(directionalLightd);
 
 const pointLight = new THREE.PointLight(0xffffff, 1, 300);
 pointLight.position.set(0, 5, 0);
